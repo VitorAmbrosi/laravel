@@ -18,6 +18,7 @@ class KeepController extends Controller
 
     public function create(Request $request) {
         if ($request->isMethod('post')) {
+            dd($request);
             $dados = $request->validate([
                 'nota' => 'required|min:5|max:255',
                 'cor' => 'required'
@@ -36,6 +37,7 @@ class KeepController extends Controller
         // dd($nota);
 
         if(request()->isMethod('delete')) {
+            $nota->timestamps = false; // Desatiav operações com timestamps temporariamente, evitando que o campo "updated_at" seja alterado
             $nota->delete();
 
             return redirect()->route('keep.index')->with('mensagem', 'Nota excluida com sucesso.');
@@ -58,15 +60,25 @@ class KeepController extends Controller
             return redirect()->route('keep.index')->with('mensagem', 'Nota atualizada com sucesso.');
         }
 
-
-        if ($request->isMethod('post')) {
-
-            return redirect() -> route('keep.create', [
+        return view('keep/create', [
                 'nota' => $nota
             ]);
-        }
-
-        return view('keep/create');
     }
 
+
+    public function trash() {
+        $notas = nota::onlyTrashed()->get();
+
+        return view('keep.trash', [
+            'notas' => $notas,
+        ]);
+    }
+
+
+    public function restore(Nota $nota) {
+        $nota->timestamps = false; // Desatiav operações com timestamps temporariamente, evitando que o campo "updated_at" seja alterado
+        $nota->restore();
+
+        return redirect() -> route('keep.index') -> with('mensagem', 'Nota restaurada com sucesso.');
+    }
 }
