@@ -21,7 +21,7 @@
         <input type="color" name="cor" value="{{ old('cor', $nota['cor'] ?? '') }}">
         <br>
         <input type="file" name="imagem">
-        <br>
+        <br>    
         <input type="submit" value="Gravar">
     </form>
 

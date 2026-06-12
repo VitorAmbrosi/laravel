@@ -10,12 +10,19 @@
         <div>{{ session('mensagem') }} 😎</div>
     @endif
 
+    <div style="display: flex; flex-direction: row; flex-wrap: wrap;">
     @foreach($notas as $nota)
 
-        <div style="color: white; background-color:{{ $nota['cor'] }}; margin: 5px; padding-left: 5px;">
+        <div style="color: white; background-color:{{ $nota['cor'] }}; margin: 5px; padding-left: 5px; width: 600px; height: 300px;">
             {{ $nota['nota'] }}
             <br><br>
 
+            @if ($nota['imagem'])
+                <img src="{{ asset('storage/'.$nota['imagem']) }}" width="300px">
+
+                <br><br>
+            @endif
+            
             Criada: {{ \Carbon\carbon::parse($nota['created_at']) -> diffForHumans() }}
             <br>
 
@@ -29,4 +36,5 @@
         </div>
         
     @endforeach
+    </div>
 @endsection

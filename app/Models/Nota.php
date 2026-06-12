@@ -8,5 +8,5 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Nota extends Model
 {
     use SoftDeletes;
-    protected $fillable = ['nota', 'cor']; // diz o que deve ser adicionado ao banco
+    protected $fillable = ['nota', 'cor', 'imagem']; // diz o que deve ser adicionado ao banco
 }
