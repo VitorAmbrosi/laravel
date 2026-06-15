@@ -43,7 +43,7 @@ class KeepController extends Controller
         // dd($nota);
 
         if(request()->isMethod('delete')) {
-            $nota->timestamps = false; // Desatiav operações com timestamps temporariamente, evitando que o campo "updated_at" seja alterado
+            $nota->timestamps = false; // Desatiava operações com timestamps temporariamente, evitando que o campo "updated_at" seja alterado
             $nota->delete();
 
             return redirect()->route('keep.index')->with('mensagem', 'Nota excluida com sucesso.');
@@ -96,5 +96,20 @@ class KeepController extends Controller
         $nota->restore();
 
         return redirect() -> route('keep.index') -> with('mensagem', 'Nota restaurada com sucesso.');
+    }
+
+    public function deleteDefinitivo(Nota $nota) {
+        if (request()->isMethod('delete')) {
+            if($nota->imagem) {
+                \Storage::disk('public')->delete($nota->imagem);
+            }
+            $nota->forceDelete();
+
+            return redirect()->route('keep.trash')->with('mensagem', 'Nota excluída permanentemente.');
+        }
+
+        return view('keep.deleteDefinitivo', [
+            'nota' => $nota,
+        ]);
     }
 }

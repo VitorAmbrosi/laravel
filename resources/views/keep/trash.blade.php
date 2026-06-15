@@ -23,7 +23,7 @@
 
             <a href="{{ @route('keep.trash.restore', $nota['id']) }}" style="text-decoration: none;">🔨 Restaurar</a>
             <br>
-            <a href="#" style="text-decoration: none;"> 🔥 Apagar em definitivo</a>
+            <a href="{{ @route('keep.trash.delete' , $nota['id'] )}}" style="text-decoration: none;"> 🔥 Apagar em definitivo</a>
         </div>
         
     @endforeach
